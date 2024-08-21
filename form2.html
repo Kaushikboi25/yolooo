@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Information Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .form-box {
+            padding: 20px;
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+        .form-title {
+            margin-bottom: 10px;
+        }
+        .input-group-text {
+            min-width: 150px;
+        }
+        .btn-custom {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <div class="form-title"><strong>Customer Information</strong></div>
+            <form id="customerForm">
+                <!-- Customer Name -->
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="customerName">Customer Name</label>
+                    <input type="text" class="form-control" id="customerName" placeholder="Enter your name">
+                </div>
+
+                <!-- Customer Email -->
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="customerEmail">Customer Email</label>
+                    <input type="email" class="form-control" id="customerEmail" placeholder="Enter your email">
+                </div>
+
+                <!-- Customer Number with Country Code -->
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="customerNumber">Customer Number</label>
+                    <input type="tel" class="form-control" id="customerNumber" placeholder="Enter your phone number">
+                </div>
+
+                <!-- Delivery Address Line 1 -->
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="addressLine1">Address Line 1</label>
+                    <input type="text" class="form-control" id="addressLine1" placeholder="Enter your address">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="addressLine1">Address Line 2</label>
+                    <input type="text" class="form-control" id="addressLine2" placeholder="Enter your address">
+                </div>
+              
+                <!-- Postcode -->
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="postcode">City</label>
+                    <input type="text" class="form-control" id="postcode" placeholder="Enter your city">
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="addressLine1">Pickup time</label>
+                    <input type="datetime-local" class="form-control" id="addressLine3" placeholder="Enter your address">
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-dark btn-custom"onclick='al()'>Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+         
+        <script type="text/javascript">
+    (function(){
+        emailjs.init("kpTB72PLOi24I3G2x"); // Initialize with your public key
+    })();
+
+    document.getElementById('customerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Collect form data
+        const customerName = document.getElementById('customerName').value;
+        const customerEmail = document.getElementById('customerEmail').value;
+        const customerNumber = document.getElementById('customerNumber').value;
+        const addressLine1 = document.getElementById('addressLine1').value;
+        const addressLine2 = document.getElementById('addressLine2').value;
+        const addressLine3 = document.getElementById('addressLine3').value;
+        const postcode = document.getElementById('postcode').value;
+
+        // Send email using EmailJS
+        emailjs.send("service_i0ef9xi", "purchase_yolo", {
+            customer_name: customerName,
+            customer_email: customerEmail,
+            customer_number: customerNumber,
+            address_line1: addressLine1,
+            address_line2: addressLine2,
+            postcode: postcode,
+            time: addressLine3,
+            to_email: customerEmail,  // Send email to the entered email address
+            message: `Order placed by ${customerName}`
+        })
+        .then(function(response) {
+            alert('Order has been placed! You will receive an email shortly.');
+        }, function(error) {
+            alert('Failed to send email. Please try again later.');
+        });
+    });
+
+    </script>
+</body>
+</html>
